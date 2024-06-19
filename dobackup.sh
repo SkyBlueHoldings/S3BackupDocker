@@ -4,6 +4,9 @@ set -e
 
 source .env
 
+# Encryption public key file
+KEY_FILE=/opt/PublicKey.pem
+
 # Default storage class to standard if not provided
 S3_STORAGE_CLASS=${S3_STORAGE_CLASS:-STANDARD}
 
