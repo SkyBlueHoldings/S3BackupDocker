@@ -1,0 +1,38 @@
+name: publish
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    name: Build Container
+    runs-on: [self-hosted]
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: GHCR Authenticate
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Container
+        run: |
+          docker build . \
+          --file Dockerfile \
+          --tag ghcr.io/skyblueholdings/s3backup:${{ env.RELEASE_TAG }} \
+          --label "org.opencontainers.image.source=https://github.com/SkyBlueHoldings/S3BackupDocker" \
+          --label "org.opencontainers.image.description=Automated File/Directory Backup to Amazon S3" \
+          --label "org.opencontainers.image.authors=Bradley Morrissey, github/peterrus" \
+          --label "org.opencontainers.image.version=${{ env.RELEASE_TAG }}" \
+          --label "org.opencontainers.image.licenses=MIT License"
+      
+      - name: Push Container
+        run: |
+          docker push ghcr.io/skyblueholdings/s3backup:${{ env.RELEASE_TAG }}
