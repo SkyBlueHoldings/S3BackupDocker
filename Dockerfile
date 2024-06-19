@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-RUN apk -Uuv add busybox-suid less aws-cli curl && \
+RUN apk -Uuv add busybox-suid less aws-cli curl openssl && \
 	rm /var/cache/apk/*
 
 COPY entrypoint.sh /
