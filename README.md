@@ -1,15 +1,12 @@
 # Docker S3 Cron Backup
 
-[:star: Docker Hub](https://hub.docker.com/r/peterrus/s3-cron-backup/)
-[:star: Github](https://github.com/peterrus/docker-s3-cron-backup)
-
 ## What is it?
 A modest little container image that periodically backups any volume mounted to `/data` to S3-compatible storage in the form of a timestamped, gzipped, tarball. By default this container is configured to work with Amazon S3 but it should work with most S3-backends.
 
 ## Great, but how does it work?
 An Alpine Linux instance runs nothing more than crond with a crontab that contains nothing more than one single entry that triggers the backup script. When this script is run, the volume mounted at `/data` gets tarred, gzipped and uploaded to a S3 bucket. Afterwards the archive gets deleted from the container. The mounted volume, of course, will be left untouched.
 
-I invite you to check out the source of this image, it's rather simple and should be easy to understand. If this isn't the case, feel free to open an issue on [github](https://github.com/peterrus/docker-s3-cron-backup)
+I invite you to check out the source of this image, it's rather simple and should be easy to understand. If this isn't the case, feel free to open an issue on [github](https://github.com/SkyBlueHoldings/S3BackupDocker)
 
 *Pull requests welcome*
 
@@ -40,7 +37,7 @@ docker run \
   -e CRON_SCHEDULE="0 * * * *" \
   -e BACKUP_NAME=make-something-up \
   -v /your/awesome/data:/data:ro \
-  peterrus/s3-cron-backup
+  ghcr.io/skyblueholdings/s3backup:v1.0.0
 ```
 
 ### Docker-compose
@@ -50,7 +47,7 @@ version: '3.8'
 
 services:
   my-backup-unit:
-    image: peterrus/s3-cron-backup
+    image: ghcr.io/skyblueholdings/s3backup:v1.0.0
     environment:
       - AWS_ACCESS_KEY_ID=SOME8AWS3ACCESS9KEY
       - AWS_SECRET_ACCESS_KEY=sUp3rS3cr3tK3y0fgr34ts3cr3cy
@@ -90,3 +87,4 @@ Let this container serve as a starting point and an inspiration! Feel free to mo
 - [ifolarin](https://github.com/ifolarin)
 - [stex79](https://github.com/stex79)
 - [f213](https://github.com/f213)
+- [BradMorrissey](https://github.com/BradMorrissey)
