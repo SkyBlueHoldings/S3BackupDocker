@@ -4,6 +4,9 @@ on:
   release:
     types: [published]
 
+env:
+  RELEASE_TAG: ${{ github.ref_name }}
+
 jobs:
   build:
     name: Build Container
