@@ -38,6 +38,7 @@ openssl rand -base64 64 > /tmp/SymKey.key
 
 echo "🔑 Encrypting Archive..."
 openssl enc -aes-256-cbc \
+  -pbkdf2 \
   -salt \
   -in "${FILE_NAME}" \
   -out "${ENCRYPTED_FILE_NAME}" \
