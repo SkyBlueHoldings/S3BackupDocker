@@ -32,7 +32,7 @@ echo "🗄️ Creating Archive..."
 tar -zcvf "${FILE_NAME}" "${TARGET}"
 
 echo "🔑 Encrypting Archive..."
-openssl rsautl -encrypt -pubin -inkey "${KEY_FILE}" -in "${FILE_NAME}" -out "${ENCRYPTED_FILE_NAME}"
+openssl pkeyutl -encrypt -pubin -inkey "${KEY_FILE}" -in "${FILE_NAME}" -out "${ENCRYPTED_FILE_NAME}"
 
 echo "📤 Uploading to Amazon S3..."
 aws s3 ${AWS_ARGS} cp --storage-class "${S3_STORAGE_CLASS}" "${ENCRYPTED_FILE_NAME}" "${S3_BUCKET_URL}"
